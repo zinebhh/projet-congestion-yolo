@@ -1,0 +1,172 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="main-container">
+    <div class="pd-ltr-20 customscroll-10-p height-100-p xs-pd-20-10">
+
+        <!-- Page Header -->
+        <div class="page-header mb-20">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h4 class="font-20 weight-500">Analyse de vidéo</h4>
+                    <p class="text-muted">Téléchargez une vidéo pour la traiter avec YOLO et afficher les objets détectés.</p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="/dashboard">Accueil</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Analyse de vidéo</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulaire d'upload -->
+        <div class="card-box pd-20 mb-30">
+            <form action="{{ url_for('analyse_video') }}" method="post" enctype="multipart/form-data" onsubmit="showLoading()" class="mb-5">
+                <div class="mb-3">
+                    <label for="video" class="form-label">Choisir une vidéo à analyser :</label>
+                    <input class="form-control" type="file" name="video" id="video" accept="video/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Analyser la Vidéo</button>
+            </form>
+        </div>
+        <!-- Loader caché par défaut -->
+<div id="loading" style="display: none; margin-top: 20px;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden"></span>
+    </div>
+    <p>Traitement en cours, veuillez patienter...</p>
+  </div>
+  
+  <script>
+    function showLoading() {
+      document.getElementById('loading').style.display = 'block';
+    }
+  </script>
+
+        <!-- Résultat après traitement -->
+        {% if video_path %}
+        <div class="pd-20 card-box mb-30">
+            <div class="clearfix mb-20">
+                <div class="pull-left">
+                    <h4 class="text-blue h4">Vidéo traitée</h4>
+                </div>
+            </div>
+            <div class="container">
+                <video controls width="100%">
+                    <source src="{{ url_for('serve_output', filename=video_path) }}" type="video/mp4">
+                    Votre navigateur ne supporte pas la vidéo.
+                </video>
+                <a href="{{ url_for('serve_output', filename=video_path) }}" download class="btn btn-success mt-3">
+                    Télécharger la vidéo traitée
+                </a>
+            </div>
+        </div>
+        {% endif %}
+        
+
+        <!-- Message d'erreur -->
+        {% if error %}
+        <div class="alert alert-danger mt-3" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+
+    </div>
+    <div class="pd-ltr-20 customscroll-10-p height-100-p xs-pd-20-10">
+        {% if stats %}
+        <div class="row mt-4">
+            <div class="col-md-3 mb-3">
+                <div class="card text-white bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Véhicules totaux</h5>
+                        <p class="card-text h4">{{ stats.total_vehicules }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title">Voitures</h5>
+                        <p class="card-text h4">{{ stats.voitures }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card text-white bg-warning">
+                    <div class="card-body">
+                        <h5 class="card-title">Camions</h5>
+                        <p class="card-text h4">{{ stats.camions }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card text-white bg-danger">
+                    <div class="card-body">
+                        <h5 class="card-title">Motos</h5>
+                        <p class="card-text h4">{{ stats.motos }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Vitesse moyenne</h5>
+                        <p class="card-text h5">{{ stats.vitesse_moyenne }} km/h</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Durée de la vidéo</h5>
+                        <p class="card-text h5">{{ stats.duree }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Heure de pointe</h5>
+                        <p class="card-text h5">{{ stats.heure_pointe }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+{% if rapport_pdf %}
+    <div class="mt-3">
+        <a href="{{ url_for('serve_output', filename=rapport_pdf) }}" class="btn btn-outline-primary" download>
+            Télécharger le rapport PDF
+        </a>
+    </div>
+{% endif %}
+
+    </div>
+</div>
+<script src="src/plugins/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
+	<script src="src/plugins/datatables/js/dataTables.responsive.min.js"></script>
+	<script src="src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
+	<!-- buttons for Export datatable -->
+	<script src="src/plugins/datatables/js/dataTables.buttons.min.js"></script>
+	<script src="src/plugins/datatables/js/buttons.bootstrap4.min.js"></script>
+	<script src="src/plugins/datatables/js/buttons.print.min.js"></script>
+	<script src="src/plugins/datatables/js/buttons.html5.min.js"></script>
+	<script src="src/plugins/datatables/js/buttons.flash.min.js"></script>
+	<script src="src/plugins/datatables/js/pdfmake.min.js"></script>
+	<script src="src/plugins/datatables/js/vfs_fonts.js"></script>
+	<!-- Datatable Setting js -->
+	<script src="vendors/scripts/datatable-setting.js"></script><script src="/static/vendors/scripts/dashboard.js"></script>
+   
+<script>
+    const player = new Plyr('#processedVideo');
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}Caméra en Direct{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="pd-ltr-20">
+        <div class="card-box pd-20 mb-30">
+            <h4 class="text-blue h4">Caméras de Circulation</h4>
+            <div class="text-center">
+                <img id="liveVideo" src="{{ url_for('video_feed') }}" class="img-fluid border rounded" style="max-width: 90%; border: 2px solid #007bff;">
+            </div>
+        </div>
+    </div>
+
+    <div class="pd-ltr-20">
+        <div class="card-box pd-20 mb-30">
+            <h5 class="text-blue h5">Carte des Caméras</h5>
+            <div id="map" style="height: 500px;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Leaflet.js -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    // Initialisation de la carte
+    var map = L.map('map').setView([46.8139, -71.2080], 7); // Québec
+
+    // Ajout de la couche OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Remplacer par le bon chemin local ou une URL externe accessible
+    fetch('/static/data/cameras.geojson')
+        .then(response => {
+            if (!response.ok) throw new Error("Erreur de chargement GeoJSON");
+            return response.json();
+        })
+        .then(data => {
+            L.geoJSON(data, {
+                onEachFeature: function (feature, layer) {
+                    if (feature.properties && feature.properties.url) {
+                        layer.bindPopup('<img src="' + feature.properties.url + '" alt="Caméra" width="300">');
+                    }
+                }
+            }).addTo(map);
+        })
+        .catch(error => {
+            console.error("Erreur lors du chargement GeoJSON :", error);
+        });
+</script>
+{% endblock %}

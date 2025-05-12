@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}resultat{% endblock %}
+
+{% block content %}
+
+<h2>Rapport généré</h2>
+<a href="{{ url_for('static', filename='reports/' + report_name) }}" target="_blank" class="btn btn-success">
+  Voir le rapport PDF
+</a>
+
+<h2>Image analysée</h2>
+<img src="{{ url_for('static', filename='processed/' + image_name) }}" width="500">
+<br>
+<a href="{{ url_for('static', filename='processed/' + image_name) }}" download class="btn btn-primary">
+  Télécharger l'image traitée
+</a>
+{% endblock %}

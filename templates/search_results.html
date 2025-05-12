@@ -1,0 +1,17 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="main-container">
+<h4>Résultats pour "{{ query }}"</h4>
+{% if results %}
+<ul>
+  {% for item in results %}
+    <li><a href="{{ item.url }}">{{ item.title }} ({{ item.type }})</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Aucun résultat trouvé.</p>
+{% endif %}
+</div>
+{% endblock %}

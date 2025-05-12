@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block title %}Analyse sur la carte{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="pd-ltr-20 customscroll-10-p height-100-p xs-pd-20-10">
+        <div class="page-header mb-20">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h4 class="font-20 weight-500">Analyse sur la carte</h4>
+                    <p class="text-muted">Cliquez sur un point pour voir l'analyse vidéo et les statistiques.</p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="/dashboard">Accueil</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Analyse sur la carte</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-box mb-30">
+            <div id="map" style="height: 500px; width: 100%; margin-bottom: 20px;"></div>
+
+            <div id="video-player" style="display: none;">
+                <h3 id="camera-name" class="mb-3"></h3>
+
+                <div class="mb-3">
+                    <video id="camera-feed" width="100%" height="400" controls autoplay muted class="border rounded shadow">
+                        <source src="" type="video/mp4">
+                        Votre navigateur ne supporte pas la lecture vidéo.
+                    </video>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card text-white bg-info mb-3">
+                            <div class="card-header">Nombre de véhicules détectés</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="vehicle-count">0</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-header">Densité</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="density">N/A</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-header">Vitesse Moyenne</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="avg-speed">0 km/h</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a id="download-video" class="btn btn-primary mr-2" download>
+                        <i class="fa fa-download"></i> Télécharger la Vidéo
+                    </a>
+                    <a id="download-report" class="btn btn-secondary" href="/generate-report" target="_blank">
+                        <i class="fa fa-file-pdf-o"></i> Télécharger le Rapport d'Analyse
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 13,
+            center: { lat: 33.5898, lng: -7.6038 },
+        });
+
+        const points = JSON.parse('{{ points | tojson | safe }}');
+
+        points.forEach(point => {
+            const marker = new google.maps.Marker({
+                position: { lat: point.lat, lng: point.lng },
+                map,
+                title: point.name,
+            });
+
+            marker.addListener("click", () => {
+                document.getElementById("camera-name").textContent = point.name;
+                const video = document.getElementById("camera-feed");
+                const downloadLink = document.getElementById("download-video");
+
+                const streamURL = "/detect-stream?url=" + encodeURIComponent(point.url);
+                video.src = streamURL;
+                downloadLink.href = point.url;
+
+                document.getElementById("video-player").style.display = "block";
+
+                // Simuler les statistiques
+                document.getElementById("vehicle-count").textContent = Math.floor(Math.random() * 100);
+                document.getElementById("density").textContent = ["Faible", "Modérée", "Élevée"][Math.floor(Math.random() * 3)];
+                document.getElementById("avg-speed").textContent = (20 + Math.random() * 50).toFixed(1) + " km/h";
+            });
+        });
+    }
+</script>
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDF58SjUsgnh9CXjad_h8Nh_LmHkgIlSCM&callback=initMap">
+</script>
+{% endblock %}

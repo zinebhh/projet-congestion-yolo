@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="main-container">
+	<div class="pd-ltr-20 xs-pd-20-10">
+		<div class="min-height-200px">
+			<div class="page-header">
+				<div class="row">
+					<div class="col-md-6 col-sm-12">
+						<div class="title">
+							<h4>Introduction</h4>
+						</div>
+						<nav aria-label="breadcrumb" role="navigation">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+								<li class="breadcrumb-item"><a href="javascript:;">Documentation</a></li>
+								<li class="breadcrumb-item active" aria-current="page">Introduction</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="col-md-6 col-sm-12 text-right">
+						<div class="dropdown">
+							<a class="btn btn-primary dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+								Menu
+							</a>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item active" href="introduction.html">Introduction</a>
+								<a class="dropdown-item" href="getting-started.html">Commencer</a>
+								<a class="dropdown-item" href="modules.html">Modules</a>
+								<a class="dropdown-item" href="tools.html">Outils Tiers</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="pd-20 card-box mb-30">
+				<h4 class="h4 text-blue mb-10">Introduction</h4>
+				<p>Cette documentation présente la <strong>formation à l'analyse du trafic routier</strong> basée sur l'utilisation de technologies modernes comme <strong>YOLO (You Only Look Once)</strong>, <strong>DeepSORT</strong>, et <strong>Streamlit</strong>. Le but est de créer une application complète de détection de congestion, comptage de véhicules, estimation de vitesse et visualisation des données.</p>
+				<p>Le programme est conçu pour les étudiants en informatique souhaitant apprendre à combiner l’intelligence artificielle, la vision par ordinateur et le développement web pour des projets concrets. Cette formation est aussi adaptée pour les projets de fin d’études (PFE).</p>
+			</div>
+
+			<div class="pd-20 card-box mb-30">
+				<h4 class="h4 text-blue mb-10">Support</h4>
+				<p>Cette documentation est organisée en modules clairs pour faciliter l’apprentissage et l’intégration des différentes parties du projet.</p>
+				<p>Pour toute question ou suggestion, veuillez utiliser l’espace de feedback intégré à l’application ou soumettre une issue sur le dépôt GitHub du projet.</p>
+				<p>Le projet utilise plusieurs bibliothèques open-source. Si vous rencontrez un bug ou souhaitez proposer une amélioration, merci de <a href="https://github.com/votre-depot/analyse-trafic/issues" target="_blank" class="text-primary">soumettre une issue</a>.</p>
+			</div>
+
+			<h4 class="h4 text-blue mb-10">Note</h4>
+			<div class="pd-20 card-box mb-30" data-bgcolor="#ff4747" data-color="#fdfdfd">
+				<ul>
+					<li class="d-flex pb-20"><i class="dw dw-edit-file font-20 mr-2"></i> Ce projet repose sur YOLOv5/v8, DeepSORT, Flask et Streamlit. Pensez à vérifier la compatibilité de vos versions locales avec les dépendances du projet.</li>
+					<li class="d-flex pb-20"><i class="dw dw-edit-file font-20 mr-2"></i> Certaines bibliothèques tierces sont utilisées pour l’interface graphique et l’analyse de données. Leurs liens sont listés dans la section "Outils Tiers".</li>
+					<li class="d-flex pb-20"><i class="dw dw-edit-file font-20 mr-2"></i> Vous êtes libre de modifier le projet pour vos besoins pédagogiques ou professionnels, mais mentionnez les auteurs originaux si vous le redistribuez.</li>
+					<li class="d-flex pb-20"><i class="dw dw-edit-file font-20 mr-2"></i> Aucun support officiel n’est offert sur les bibliothèques tierces. Référez-vous à leur documentation respective.</li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer-wrap pd-20 mb-20 card-box">
+			Formation Analyse du Trafic Routier - Projet PFE 2025, développé par l’équipe d'étudiants SMI-FSAC.
+		</div>
+	</div>
+</div>
+
+{% endblock %}
