@@ -176,7 +176,7 @@ def register():
             return redirect(url_for('register'))
 
         hashed_password = generate_password_hash(password)
-        new_user = User(email=email, name=username, password=hashed_password)
+        new_user = User(email=email, username=username, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         flash("Compte créé avec succès !")
@@ -566,7 +566,7 @@ create_dummy_pdf("static/rapport_demo.pdf")
 @app.route("/profile")
 @login_required
 def profile():
-    videos = VideoAnalysis.query.filter_by(user_id=current_user.id).order_by(VideoAnalysis.analysis_date.desc()).all()
+    videos = video_analysees.query.filter_by(user_id=current_user.id).order_by(video_analysees.analysis_date.desc()).all()
     for video in videos:
         if video.analysis_date is None:
             video.analysis_date = "Non disponible"  # ou datetime.now(), selon le besoin

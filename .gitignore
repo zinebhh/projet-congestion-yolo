@@ -1,0 +1,13 @@
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.pt
+runs/
+datasets/
+__pycache__/
+*.log
+*.pkl
+*.npy
+*.jpg
+*.png

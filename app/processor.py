@@ -99,11 +99,11 @@ def analyser_video(input_path, output_path):
 
         def evaluer_congestion(n, v):
             if n > 15 and v < 10:
-                return "🚨 Congestion ÉLEVÉE"
+                return " Congestion ÉLEVÉE"
             elif n > 10 and v < 20:
-                return "⚠️ Congestion MOYENNE"
+                return " Congestion MOYENNE"
             else:
-                return "🟢 Trafic FLUIDE"
+                return "Trafic FLUIDE"
 
         etat = evaluer_congestion(nb_vehicules, vitesse_moyenne)
         cv2.putText(frame, f"Etat: {etat}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
