@@ -1,13 +1,10 @@
-*.mp4
-*.avi
-*.mkv
-*.mov
-*.pt
-runs/
-datasets/
+# .gitignore
+venv/
 __pycache__/
-*.log
-*.pkl
-*.npy
-*.jpg
-*.png
+*.pyc
+*.pyo
+*.pyd
+*.mp4
+*.pt
+.DS_Store
+.env
